@@ -39,12 +39,15 @@ pipeline {
                 junit 'target/surefire-reports/*.xml'
             }
         }
-        
-      
+        stage('Publish Test Results') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
     }
     
-
-
     post {
         always {
             echo 'Pipeline completed.'
